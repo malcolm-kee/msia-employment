@@ -1,0 +1,11 @@
+.line-graph--title {
+  text-align: center;
+}
+
+.line-graph--chart-container {
+  text-align: center;
+}
+
+.line-graph--chart {
+  width: 100%;
+}

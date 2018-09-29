@@ -1,16 +1,16 @@
-const path = require("path");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: "development",
-  entry: path.join(__dirname, "src", "index.js"),
+  mode: 'development',
+  entry: path.join(__dirname, 'src', 'index.js'),
   output: {
-    path: path.join(__dirname, "dist"),
-    publicPath: "/"
+    path: path.join(__dirname, 'dist'),
+    publicPath: '/'
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx"]
+    extensions: ['*', '.js', '.jsx']
   },
   module: {
     rules: [
@@ -18,15 +18,19 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
+          loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.css$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin("dist"),
+    new CleanWebpackPlugin('dist'),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src", "index.html")
+      template: path.join(__dirname, 'src', 'index.html')
     })
   ]
 };
