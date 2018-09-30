@@ -1,15 +1,16 @@
 import React from 'react';
 import * as d3 from 'd3';
 import { legendColor } from 'd3-svg-legend';
+import { lastItem } from '../util/array-util';
 import { noop } from '../util/fn-util';
 import './line-graph.css';
 
 const WIDTH = 800;
-const HEIGHT = 500;
+const HEIGHT = 200;
 const MARGIN = {
-  top: 40,
+  top: 0,
   left: 40,
-  right: 20,
+  right: 0,
   bottom: 40
 };
 
@@ -29,6 +30,10 @@ const legendOrdinal = legendColor()
   .shapePadding(10)
   .scale(ordinal);
 
+/**
+ * @param {Array} data
+ * @param {Array<number>} range
+ */
 const partitionData = (data, range) => {
   if (range.length !== 2) {
     return {
@@ -38,7 +43,7 @@ const partitionData = (data, range) => {
     };
   }
 
-  return data.reduce(
+  const partitionedData = data.reduce(
     (result, d) => ({
       ...result,
       ...(d.key < range[0]
@@ -53,6 +58,18 @@ const partitionData = (data, range) => {
       after: []
     }
   );
+
+  // place first point in range to before so that the line will be connected
+  if (partitionedData.before.length > 0) {
+    partitionedData.before = partitionedData.before.concat(partitionedData.inRange[0]);
+  }
+
+  // insert last point in range to after so that the line will be connected
+  if (partitionedData.after.length > 0) {
+    partitionedData.after = [lastItem(partitionedData.inRange)].concat(partitionedData.after);
+  }
+
+  return partitionedData;
 };
 
 export class LineGraph extends React.Component {
@@ -60,11 +77,9 @@ export class LineGraph extends React.Component {
     const props = this.props;
     return (
       <div className="line-graph">
-        <div className="line-graph--title">
-          <h2>
-            {props.title} ({this.state.minYear}-{this.state.maxYear})
-          </h2>
-        </div>
+        <h2 className="line-graph--title">
+          {props.title} ({this.state.minYear}-{this.state.maxYear})
+        </h2>
         <div className="line-graph--chart-container">
           <svg
             className="line-graph--chart"
@@ -98,7 +113,7 @@ export class LineGraph extends React.Component {
               transform={`translate(0, ${HEIGHT - MARGIN.bottom})`}
             />
             <g ref={ref => (this.yAxisRef = ref)} transform={`translate(${MARGIN.left}, 0)`} />
-            <g ref={ref => (this.legendRef = ref)} transform={`translate(100, 50)`} />
+            <g ref={ref => (this.legendRef = ref)} transform={`translate(75, 20)`} />
             <g ref={ref => (this.brushRef = ref)} />
           </svg>
         </div>
@@ -157,7 +172,10 @@ export class LineGraph extends React.Component {
   };
 
   xAxis = d3.axisBottom().tickFormat(d3.format('d'));
-  yAxis = d3.axisLeft().tickFormat(d3.format('.2s'));
+  yAxis = d3
+    .axisLeft()
+    .ticks(5)
+    .tickFormat(d3.format('.2s'));
 
   refreshScale = () => {
     this.xAxis.scale(this.state.dateScale);
