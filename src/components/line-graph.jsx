@@ -76,7 +76,7 @@ export class LineGraph extends React.Component {
   render() {
     const props = this.props;
     return (
-      <div className="line-graph">
+      <section className="line-graph">
         <h2 className="line-graph--title">
           {props.title} ({this.state.minYear}-{this.state.maxYear})
         </h2>
@@ -117,7 +117,7 @@ export class LineGraph extends React.Component {
             <g ref={ref => (this.brushRef = ref)} />
           </svg>
         </div>
-      </div>
+      </section>
     );
   }
 
