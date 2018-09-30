@@ -16,7 +16,7 @@ const MARGIN = {
 
 const ordinal = d3
   .scaleOrdinal()
-  .domain(['Outside Label', 'Unemployment'])
+  .domain(['Outside Labour', 'Unemployment'])
   .range(['purple', 'blue']);
 
 const legendOrdinal = legendColor()
