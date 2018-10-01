@@ -8,6 +8,7 @@ module.exports = {
   mode: 'production',
   entry: path.join(__dirname, 'src', 'index.js'),
   output: {
+    filename: '[name].[hash].js',
     path: path.join(__dirname, 'dist'),
     publicPath: '/'
   },
@@ -34,7 +35,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'index.html')
     }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css'
+    })
   ],
   optimization: {
     minimizer: [new UglifyJsPlugin()]
