@@ -6,7 +6,7 @@ import { noop } from '../util/fn-util';
 import './line-graph.css';
 
 const WIDTH = 800;
-const HEIGHT = 200;
+const HEIGHT = 300;
 const MARGIN = {
   top: 0,
   left: 40,
@@ -81,12 +81,7 @@ export class LineGraph extends React.Component {
           {props.title} ({this.state.minYear}-{this.state.maxYear})
         </h2>
         <div className="line-graph--chart-container">
-          <svg
-            className="line-graph--chart"
-            width={WIDTH}
-            height={HEIGHT}
-            viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-          >
+          <svg className="line-graph--chart" viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
             <path d={this.state.labourLine} fill="none" strokeWidth={1.5} stroke="purple" />
             <path d={this.state.unemploymentLine} fill="none" strokeWidth={1.5} stroke="blue" />
             <path

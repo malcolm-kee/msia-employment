@@ -21,12 +21,7 @@ export class BarChart extends React.Component {
           {props.title} ({this.state.minYear}-{this.state.maxYear})
         </h2>
         <div className="bar-chart--chart-container">
-          <svg
-            className="bar-chart--chart"
-            width={WIDTH}
-            height={HEIGHT}
-            viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-          >
+          <svg className="bar-chart--chart" viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
             {this.state.data.map(d => (
               <rect fill="blue" stroke="white" key={d.x} {...d} />
             ))}
