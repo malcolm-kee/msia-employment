@@ -23,7 +23,7 @@ export class BarChart extends React.Component {
         <div className="bar-chart--chart-container">
           <svg className="bar-chart--chart" viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
             {this.state.data.map(d => (
-              <rect fill="blue" stroke="white" key={d.x} {...d} />
+              <rect fill={props.fillColor} stroke="white" key={d.x} {...d} />
             ))}
             <g
               ref={ref => (this.xAxisRef = ref)}
@@ -35,6 +35,10 @@ export class BarChart extends React.Component {
       </section>
     );
   }
+
+  static defaultProps = {
+    fillColor: 'blue'
+  };
 
   static getDerivedStateFromProps(props) {
     const { data } = props;
@@ -49,7 +53,8 @@ export class BarChart extends React.Component {
     const stateScale = d3
       .scaleBand()
       .domain(dataSummary.map(d => d.key))
-      .range([MARGIN.left, WIDTH - MARGIN.right]);
+      .range([MARGIN.left, WIDTH - MARGIN.right])
+      .padding(0.2);
 
     const yScale = d3
       .scaleLinear()

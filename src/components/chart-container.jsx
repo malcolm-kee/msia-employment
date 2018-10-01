@@ -45,11 +45,13 @@ export class ChartContainer extends React.Component {
           title="Outside Labour for each state"
           data={this.state.filteredLabourData}
           range={this.state.range}
+          fillColor="purple"
         />
         <BarChart
           title="Unemployment for each state"
           data={this.state.filteredUnemploymentData}
           range={this.state.range}
+          fillColor="blue"
         />
       </div>
     );
